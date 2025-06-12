@@ -7,6 +7,8 @@ const session = require("express-session");
 const passport = require("passport");
 const path = require('path');
 const indexRouter = require('./routes/index');
+const connectWithDb = require("./Config/mongoose-connection");
+connectWithDb();
 
 // Logger Setup
 logger.token("time", () => new Date().toLocaleString());
