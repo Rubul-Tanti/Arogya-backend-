@@ -14,7 +14,7 @@ const connectWithDb = require("./Config/mongoose-connection");
 connectWithDb();
 // Logger Setup
 logger.token("time", () => new Date().toLocaleString());
-app.use(corsConfig)
+// app.use(corsConfig)
 app.use(logger(":time :method :url :status"));
 
 
@@ -60,5 +60,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 // app.use("api/v1",indexRouter)
-
 module.exports = app;

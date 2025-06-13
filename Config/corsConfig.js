@@ -4,7 +4,7 @@ const corsConfig=()=>{
     return cors({
         origin:(orgin,callback)=>{
             const allowedorigin=["http://localhost:5173","https://domain.com"]
-            if(!origin||allowedorigin.indexOf(orgin)!==-1){
+            if(!origin||allowedorigin.indexOf(origin)!==-1){
                 callback(null,true)
             }else{
                 callback(new Error("not allowed by cors"))
