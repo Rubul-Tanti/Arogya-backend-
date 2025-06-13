@@ -1,5 +1,7 @@
 const express = require("express");
 const app = express();
+const corsConfig=require("./Config/corsConfig") //comming from cofig folder corsConfig rubultanti//
+const {globalErrorHandler}=require("./Middleware/errorHandlers")
 const createError = require('http-errors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -7,11 +9,11 @@ const session = require("express-session");
 const passport = require("passport");
 const path = require('path');
 const indexRouter = require('./routes/index');
-const connectWithDb = require("./Config/mongoose-connection");
-connectWithDb();
+
 
 // Logger Setup
 logger.token("time", () => new Date().toLocaleString());
+app.use(corsConfig)
 app.use(logger(":time :method :url :status"));
 
 // Body parsing middleware
@@ -62,5 +64,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+app.use("api/v1",indexRouter)
+app.use(globalErrorHandler)
 
 module.exports = app;

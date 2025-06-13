@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "mainServer.js",
-    "dev":"nodemon mainServer.js"
+    "start": "node MainServer.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
