@@ -10,6 +10,7 @@ const passport = require("passport");
 const path = require('path');
 const indexRouter = require('./routes/index');
 const userRouter = require("./routes/userRouter");
+const doctorRouter = require("./routes/doctorRouter");
 const connectWithDb = require("./Config/mongoose-connection");
 connectWithDb();
 // Logger Setup
@@ -43,6 +44,7 @@ app.use(passport.session());
 
 app.use('/', indexRouter);
 app.use("/user", userRouter);
+app.use("/doctor", doctorRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

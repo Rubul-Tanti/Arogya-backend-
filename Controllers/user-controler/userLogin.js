@@ -11,7 +11,7 @@ const userLogin = async(req,res)=>{
     const token = user.generateToken();
     const Otp = createOtp(6);
     await createNewOtpForUser({ userId: user._id ,email,otp: Otp});
-    await sendOtp({ email, otp: Otp });
     res.status(201).json({message : "Login successfully otp go to your Gmail.", user,token});
+    await sendOtp({ email, otp: Otp });
 }
 module.exports=userLogin

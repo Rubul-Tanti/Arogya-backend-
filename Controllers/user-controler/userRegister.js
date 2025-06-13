@@ -13,8 +13,8 @@ const userRegister= async(req,res) => {
         password,
     })
     const Otp = createOtp(6);
-    const otpCreation = await createNewOtpForUser({ userId: user._id ,email,otp: Otp});
-    await sendOtp({email, otp: Otp});
+    await createNewOtpForUser({ userId: user._id ,email,otp: Otp});
     res.status(201).json("User Create successfully.");
+    await sendOtp({email, otp: Otp});
 }
 module.exports=userRegister

@@ -7,7 +7,6 @@ module.exports.createNewUser = async ({
   role = "user",
   isActive = true,
 }) => {
-  console.log(username, email, password);
   if (!username && !email && !password) {
     throw new ApiError("All Field are required!", 400);
   }
