@@ -12,9 +12,6 @@ const indexRouter = require('./routes/index');
 const userRouter = require("./routes/userRouter");
 const connectWithDb = require("./Config/mongoose-connection");
 connectWithDb();
-const ab=require("./Models/blogsSchema")
-ab()
-
 // Logger Setup
 logger.token("time", () => new Date().toLocaleString());
 app.use(corsConfig)
