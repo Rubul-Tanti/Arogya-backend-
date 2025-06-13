@@ -9,6 +9,7 @@ const session = require("express-session");
 const passport = require("passport");
 const path = require('path');
 const indexRouter = require('./routes/index');
+const userRouter = require("./routes/userRouter");
 
 
 // Logger Setup
@@ -48,6 +49,7 @@ app.use(passport.session());
 
 
 app.use('/', indexRouter);
+app.use("/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -65,6 +67,7 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 app.use("api/v1",indexRouter)
+app.use()
 app.use(globalErrorHandler)
 
 module.exports = app;

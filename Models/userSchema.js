@@ -1,51 +1,54 @@
-const mongoose=require("mongoose")
+const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const userSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: [true, 'Name is required'],
-    trim: true,
-    minlength: [2,"username cannot be less than 2 letters"],
-    maxlength:[10,"username cannot be more than 10 letters"],
+const userSchema = new mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: [true, "Name is required"],
+      trim: true,
+      minlength: [2, "username cannot be less than 2 letters"],
+      maxlength: [10, "username cannot be more than 10 letters"],
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      unique: true,
+      lowercase: true,
+      match: [/^\S+@\S+\.\S+$/, "Email is invalid"],
+      index: true,
+    },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: 6,
+      select: false, // do not return password by default
+    },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
   },
-  email: {
-    type: String,
-    required: [true, 'Email is required'],
-    unique: true,
-    lowercase: true,
-    match: [/^\S+@\S+\.\S+$/, 'Email is invalid'],
-    index: true,
-  },
-  password: {
-    type: String,
-    required: [true, 'Password is required'],
-    minlength: 6,
-    select: false, // do not return password by default
-  },
-  role: {
-    type: String,
-    enum: ['user', 'admin'],
-    default: 'user',
-  },
-  isActive: {
-    type: Boolean,
-    default: true,
+  {
+    timestamps: true, // adds createdAt and updatedAt
+    versionKey: false, // disables __v field
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
-}, {
-  timestamps: true,           // adds createdAt and updatedAt
-  versionKey: false,          // disables __v field
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
-});
+);
 
 // 🔹 Virtual field (example)
-userSchema.virtual('isAdmin').get(function () {
-  return this.role === 'admin';
+userSchema.virtual("isAdmin").get(function () {
+  return this.role === "admin";
 });
 
 // 🔹 Middleware: Hash password before save
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
@@ -53,12 +56,12 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.checkPassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
-userSchema.method.GenerateToken = () => {
-    return jwt.sign({email: this.email}, process.env.JWT_KEY,{
-        expiresIn: process.env.Expire_Time,
-    })
-}
+userSchema.method.GenerateToken = function () {
+  return jwt.sign({ email: this.email, id: this._id }, process.env.JWT_KEY, {
+    expiresIn: process.env.Expire_Time,
+  });
+};
 
-const userModel=mongoose.model("user",userSchema)
+const userModel = mongoose.model("user", userSchema);
 
-module.exports=userModel;
+module.exports = userModel;
