@@ -6,7 +6,7 @@ const connectWithDb = () => {
     mongoose.connect(link, {
       serverSelectionTimeoutMS: 5000,
     }).then(
-        () => debuger("Connect with Mongoose Hackthon0Database.")
+        () => debuger("Connect with Mongoose Hackthon0Database.") 
     ).catch(err=>{
         debuger("Error Occur in connection", err);
         setTimeout(connectWithDb,5000)
