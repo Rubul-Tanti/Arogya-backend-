@@ -3,15 +3,16 @@ const otpSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
+    required: true
   },
   otp: {
-    require: true,
+    required: true,
     type: String,
   },
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 1 * 60,
+    expires: 1*60,
   },
 });
 const otpModel = mongoose.model("otp", otpSchema);

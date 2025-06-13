@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -21,7 +23,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Password is required"],
       minlength: 6,
-      select: false, // do not return password by default
+      select: false,
     },
     role: {
       type: String,
@@ -34,29 +36,29 @@ const userSchema = new mongoose.Schema(
     },
   },
   {
-    timestamps: true, // adds createdAt and updatedAt
-    versionKey: false, // disables __v field
+    timestamps: true,
+    versionKey: false,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
   }
 );
 
-// 🔹 Virtual field (example)
 userSchema.virtual("isAdmin").get(function () {
   return this.role === "admin";
 });
 
-// 🔹 Middleware: Hash password before save
 userSchema.pre("save", async function (next) {
+  console.log("Password before hashing:", this.password);
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
-// 🔹 Instance method: Check password
+
 userSchema.methods.checkPassword = async function (candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
-userSchema.method.GenerateToken = function () {
+
+userSchema.methods.generateToken = function () {
   return jwt.sign({ email: this.email, id: this._id }, process.env.JWT_KEY, {
     expiresIn: process.env.Expire_Time,
   });
