@@ -10,7 +10,9 @@ const profileGetter = require("../Controllers/user-controler/profileGetter");
 const isLoggedInMiddleware = require("../Middleware/isLoggedInMiddleware");
 const multerErrorHandler=require("../Middleware/multerErroHandler")
 const createRaiseFundProfile=require("../Controllers/raise-fund-controler/createRaiseFundProfile")
+const getallraisingFund=require("../Controllers/raise-fund-controler/getraisingfundall")
 const uploadMiddleware=require("../Middleware/uploadMiddleware")
+const getraisingFundProfile=require("../Controllers/raise-fund-controler/getraisingFundProfile")
 router.post("/register",asyncErrorHandler(userRegister));
 router.post("/login", asyncErrorHandler(userLogin));
 router.post("/picUpload",isLoggedInMiddleware, upload.single("userPic"), asyncErrorHandler(uploadProfileImage));
@@ -22,5 +24,6 @@ router.post("/raisefunds",uploadMiddleware.fields([
   { name: "videoAppeal", maxCount: 1 },  // 1 video
 ]),multerErrorHandler,asyncErrorHandler(createRaiseFundProfile))
 router.get("/blogs/:category",isLoggedInMiddleware,asyncErrorHandler(blogs))
-
+router.get("/raisingFundProfile/:id",asyncErrorHandler(getraisingFundProfile))
+router.get("/getraisingFund/all",asyncErrorHandler(getallraisingFund))
 module.exports = router;
