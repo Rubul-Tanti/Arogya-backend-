@@ -12,6 +12,7 @@ const indexRouter = require('./routes/index');
 const userRouter = require("./routes/userRouter");
 const doctorRouter = require("./routes/doctorRouter");
 const connectWithDb = require("./Config/mongoose-connection");
+
 connectWithDb();
 // Logger Setup
 logger.token("time", () => new Date().toLocaleString());
@@ -62,5 +63,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 // app.use("api/v1",indexRouter)
-
 module.exports = app;
