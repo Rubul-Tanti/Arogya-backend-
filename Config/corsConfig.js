@@ -2,7 +2,7 @@ const cors = require("cors");
 
 const corsConfig = cors({
   origin: (origin, callback) => {
-    const allowedOrigins = ["http://localhost:5173", "https://domain.com"];
+    const allowedOrigins = ["http://localhost:5173",process.env.FRONTENDURL];
 
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
