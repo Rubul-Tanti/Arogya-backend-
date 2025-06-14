@@ -28,28 +28,27 @@ const fundraisingSchema = new mongoose.Schema({
   // Medical Information
   medical: {
     diagnosis: { type: String, required: true },
-    conditionDescription: { type: String },
+    conditionDescription: { type: String, required: true },
     hospital: {
-      name: { type: String },
-      location: { type: String }
+      name: { type: String, required: true },
+      location: { type: String, required: true }
     },
-    doctorName: { type: String },
+    doctorName: { type: String, required: true },
     estimatedCost: { type: Number, required: true },
     currency: { type: String, default: 'INR' },
-    medicalReports: [fileSchema],
-    costEstimates: [fileSchema]
+    medicalReports:{type:String, required: true},
+    costEstimates: {type:String, required: true}
   },
 
   // Media for Campaign
   media: {
-    photos: [fileSchema],
-    videoAppeal: fileSchema
+    photos:{type:String, required: true},
+    videoAppeal:{type:String, required: true}
   },
 
   // Fundraiser Details
-  fundraiser: {
+  fundDetails: {
     targetAmount: { type: Number, required: true },
-    raisedAmount: { type: Number, default: 0 },
     deadline: { type: Date },
     status: { 
       type: String, 
@@ -68,24 +67,12 @@ const fundraisingSchema = new mongoose.Schema({
     upiId: { type: String }
   },
 
-  // Donor Updates
-  updates: [{
-    message: { type: String },
-    date: { type: Date, default: Date.now }
-  }],
-
-  // Donations Log (can also be separate collection)
-  donations: [donationLogSchema],
-
   // Admin & Meta
   isVerified: { type: Boolean, default: false },
   verifiedBy: { type: String },
   submittedBy: { type: String, required: true },
   notes: { type: String },
 
-  // Declaration & Flags
-  declarationConfirmed: { type: Boolean, default: false },
-  isDeleted: { type: Boolean, default: false }
 }, { timestamps: true });
 
 module.exports = mongoose.model('FundraisingRequest', fundraisingSchema);
