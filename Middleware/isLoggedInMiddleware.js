@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const { userFinder } = require("../Utils/userFinder");
 const logerAuthenticate = async (req, res, next) => {
   try {
-    let token = req.cookies?.userToken;
+    let token = req.cookies?.UserToken;
 
     if (!token && req.headers.authorization?.startsWith("Bearer ")) {
       token = req.headers.authorization.split(" ")[1];

@@ -1,5 +1,4 @@
 const cloudinary=require("cloudinary").v2
-const path=require("path")
 const fs=require("fs")
 const cloudinaryConfig=require("../Config/cloudinaryConfig")
 cloudinaryConfig()
@@ -25,12 +24,12 @@ const uploadToCloudinary=async(files)=>{
   folder: "campaign-media",         // Optional: organize in folder
 })
 newurlObject[fieldname]=url
-fs.unlinkSync(path, (err) => {
-  if (err) {
-    console.error("Error deleting file:", err);
-  } else {
-    console.log("Local file deleted successfully");
-  }})
+try {
+  fs.unlinkSync(path);
+  console.log("Local file deleted successfully");
+} catch (err) {
+  console.error("Error deleting file:", err);
+}
 }
 
 }

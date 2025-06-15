@@ -76,20 +76,24 @@ const doctorSchema = new mongoose.Schema({
     default: "Independent",
   },
   address: {
-    type:String,
-    required:true
+    type: String,
+    required: true,
   },
-  clincname:{
-    type:String,
-    default:null
+  clincname: {
+    type: String,
+    default: null,
   },
   isVerified: {
     type: Boolean,
     default: false,
   },
   profileImage: {
-    type: Buffer,
-    contentType: String,
+    type: String,
+    default: null,
+  },
+  pictype: {
+    type: String,
+    default: "image/png",
   },
   createdAt: {
     type: Date,

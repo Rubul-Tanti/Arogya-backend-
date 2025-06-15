@@ -5,12 +5,10 @@ module.exports.uploadProfileImage = async (req,res) => {
         return res.status(400).json({ message: "Please upload a file" });
       }
     
-      // const User = req.user;
       const {email} = req.user;
       const user = await userFinder({
         key: "email",
         query:email,
-        // query: User.email,
       });
 
       if (!user) return res.status(404).json("User not found");
@@ -18,5 +16,7 @@ module.exports.uploadProfileImage = async (req,res) => {
       user.profilepic = req.file.buffer.toString("base64");
       user.pictype = req.file.mimetype;
       await user.save();
-      return res.status(200).json(cleanedUser);
+      return res
+        .status(200)
+        .json({ profilepic: user.profilepic, pictype: user.pictype });
 }
