@@ -3,6 +3,8 @@ const cors = require("cors");
 const corsConfig = cors({
   origin: (origin, callback) => {
     const allowedOrigins = ["http://localhost:5173",process.env.FRONTENDURL];
+    console.log(allowedOrigins)
+    console.log(allowedOrigins.includes(origin));
 
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
