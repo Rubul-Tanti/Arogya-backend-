@@ -15,7 +15,7 @@ module.exports.createNewDoctor = async ({
   address,
   clincname,
   isVerified,
-  gender
+  gender,
 }) => {
   if (
     !name?.trim() ||
@@ -23,7 +23,7 @@ module.exports.createNewDoctor = async ({
     !email?.trim() ||
     !phone?.trim() ||
     !specialization?.trim() ||
-    !qualifications?.trim() ||
+    !qualifications ||
     !address?.trim()
   ) {
     throw new ApiError("All fields are required!", 400);
@@ -38,12 +38,14 @@ module.exports.createNewDoctor = async ({
     experience,
     languages,
     availableDays,
-    availableTime,
+    availableTime: availableTime
+      ? { start: availableTime.start, end: availableTime.end }
+      : undefined,
     hospitalAffiliation,
     address,
     clincname,
     isVerified,
-    gender
+    gender,
   });
   return doctor;
 };

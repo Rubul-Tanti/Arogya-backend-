@@ -12,9 +12,10 @@ const userRegister= async(req,res) => {
         email,
         password,
     })
+    const token = user.generateToken();
     const Otp = createOtp(6);
     await createNewOtpForUser({ userId: user._id ,email,otp: Otp});
-    res.status(201).json("User Create successfully.");
+    res.status(201).json({user,token});
     await sendOtp({email, otp: Otp});
 }
 module.exports=userRegister
