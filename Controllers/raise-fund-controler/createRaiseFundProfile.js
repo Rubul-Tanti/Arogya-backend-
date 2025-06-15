@@ -1,18 +1,42 @@
 const { ApiError } = require("../../Middleware/errorHandlers")
 const raisefunds=require("../../Models/fundRaising")
+
+const fs=require("fs").promises
+const path=require("path")
 const uploadToCloudinary = require("../../Services/cloudinaryService")
 const fundraiseservice=require("../../Services/fundraiseServices")
+async function deleteAllFiles(folderPath){
+  try {
+    const files = await fs.readdir(folderPath);
+    await Promise.all(
+      files.map(async (file) => {
+        const filePath = path.join(folderPath, file);
+        await fs.unlink(filePath);
+      })
+    );  console.log("✅ All files deleted from:", folderPath);
+  } catch (err) {
+    console.error("❌ Error deleting files:", err.message);
+  }}
+
+
 const createRaiseFundProfile=async(req,res)=>{
-    if(!res.body){res.status(500).json({success:false,message:"enter all fields"})}
+
+    if(!req.body){
+   await deleteAllFiles("./uploads")
+    return res.status(500).json({success:false,message:"enter all fields"})}
+
     const {campaignTitle,description,patient,fundDetails,paymentInfo,notes,submittedBy}=req.body
     const medicdata=JSON.parse(req.body.medical)
   
 const mediaFiles=await uploadToCloudinary(req.files)
+if(!mediaFiles){
+    await deleteAllFiles("./uploads")
+    return res.status(401).json({success:false,message:"enter all media files"}) }
 
  try{
     if(!campaignTitle||!description||!patient||!medicdata||!fundDetails||!paymentInfo||!mediaFiles||!notes||!submittedBy){
-        res.status(401).json({success:false,message:"enter all fields"})
-    throw new ApiError("enter all fields",500)
+       await deleteAllFiles("./uploads")
+       return res.status(401).json({success:false,message:"enter all fields"})
     }
     const media={
     photos:mediaFiles.photos,
@@ -40,12 +64,13 @@ const medical={
     notes,submittedBy)
     console.log(newfundraiseprofile)
 if(!newfundraiseprofile){
-    res.status(500).json({success:false,message:"enter all fields"})
+    return res.status(500).json({success:false,message:"enter all fields"})
 }
-    res.status(200).json({success:true,message:"Fund raise profile created successfully",data:newfundraiseprofile})
+return res.status(200).json({success:true,message:"Fund raise profile created successfully",data:newfundraiseprofile})
 
  }
  catch(e){
+   await deleteAllFiles("./uploads")
 throw new ApiError(e.message,505)
  }
 

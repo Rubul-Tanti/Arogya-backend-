@@ -10,8 +10,9 @@ const asyncErrorHandler=(fn)=>(req,res,next)=>{
 }
 
 const globalErrorHandler=(err,req,res,next)=>{
-console.log(err.stack)
+console.log(err)
     if(err instanceof ApiError){
+    
         return res.status(err.statusCode).json({message:err.message,error:err.name})
     }else if(err.name=="ValidationError"){
         res.status(400).json({

@@ -1,7 +1,6 @@
 const blogsModel=require("../../Models/blogsSchema")
 const {ApiError}=require("../../Middleware/errorHandlers")
 const blogs=async(req,res)=>{
-    console.log("hi")
 const {category}=req.params
 
 try{

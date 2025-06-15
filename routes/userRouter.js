@@ -13,17 +13,19 @@ const createRaiseFundProfile=require("../Controllers/raise-fund-controler/create
 const getallraisingFund=require("../Controllers/raise-fund-controler/getraisingfundall")
 const uploadMiddleware=require("../Middleware/uploadMiddleware")
 const getraisingFundProfile=require("../Controllers/raise-fund-controler/getraisingFundProfile")
+const getblogs=require("../Controllers/blogs-controler/getblogs")
 router.post("/register",asyncErrorHandler(userRegister));
 router.post("/login", asyncErrorHandler(userLogin));
 router.post("/picUpload",isLoggedInMiddleware, upload.single("userPic"), asyncErrorHandler(uploadProfileImage));
 router.get("/profile", isLoggedInMiddleware, asyncErrorHandler(profileGetter))
-router.post("/raisefunds",uploadMiddleware.fields([
+router.post("/raisefunds",isLoggedInMiddleware,uploadMiddleware.fields([
   { name: "photos", maxCount: 4 }, // up to 4 photos
   { name: "medicalReports", maxCount: 1 },  // 1 video
   { name: "costEstimates", maxCount: 1 },  // 1 video
   { name: "videoAppeal", maxCount: 1 },  // 1 video
 ]),multerErrorHandler,asyncErrorHandler(createRaiseFundProfile))
-router.get("/blogs/:category",isLoggedInMiddleware,asyncErrorHandler(blogs))
+router.get("/blogs/:category",asyncErrorHandler(blogs))
+router.get("/getblog/:id",asyncErrorHandler(getblogs))
 router.get("/raisingFundProfile/:id",asyncErrorHandler(getraisingFundProfile))
 router.get("/getraisingFund/all",asyncErrorHandler(getallraisingFund))
 module.exports = router;

@@ -10,8 +10,9 @@ const fundraiseservice=async( campaignTitle,
     media,
     notes,submittedBy)=>{
 const patientobj=JSON.parse(patient)
+const paymentobj=JSON.parse(paymentInfo)
 const fundDetailsobj=JSON.parse(fundDetails)
-// console.log(paymentInfo)
+
 // // console.log(medical.hospital.name)
 // console.log(fundDetailsobj)
 // console.log(fundDetailsobj.reasonForHelp)
@@ -51,11 +52,11 @@ const fundDetailsobj=JSON.parse(fundDetails)
 
   // Donation Options
   paymentInfo: {
-    accountHolderName:paymentInfo.accountHolderName,
-    bankName:paymentInfo.bankName,
-    accountNumber:paymentInfo.accountNumber,
-    ifscCode:paymentInfo.ifscCode,
-    upiId:paymentInfo.upiId
+    accountHolderName:paymentobj.accountHolderName,
+    bankName:paymentobj.bankName,
+    accountNumber:paymentobj.accountNumber,
+    ifscCode:paymentobj.ifscCode,
+    upiId:paymentobj.upiId
   },
   submittedBy:submittedBy,
   notes:notes,

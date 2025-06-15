@@ -60,11 +60,11 @@ const fundraisingSchema = new mongoose.Schema({
 
   // Donation Options
   paymentInfo: {
-    accountHolderName: { type: String },
-    bankName: { type: String },
-    accountNumber: { type: String },
-    ifscCode: { type: String },
-    upiId: { type: String }
+    accountHolderName: { type: String,required: true  },
+    bankName: { type: String,required: true  },
+    accountNumber: { type: String,required: true  },
+    ifscCode: { type: String,required: true  },
+    upiId: { type: String ,required: true }
   },
 
   // Admin & Meta
