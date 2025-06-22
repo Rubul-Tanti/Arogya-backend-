@@ -16,7 +16,7 @@ const connectWithDb = require("./Config/mongoose-connection");
 connectWithDb();
 // Logger Setup
 logger.token("time", () => new Date().toLocaleString());
-app.use(corsConfig)
+
 app.use(logger(":time :method :url :status"));
 
 
