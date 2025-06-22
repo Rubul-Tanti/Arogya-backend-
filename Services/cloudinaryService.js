@@ -1,5 +1,4 @@
 const cloudinary=require("cloudinary").v2
-const path=require("path")
 const fs=require("fs")
 const cloudinaryConfig=require("../Config/cloudinaryConfig")
 cloudinaryConfig()

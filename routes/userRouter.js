@@ -5,7 +5,7 @@ const {asyncErrorHandler} = require("../Middleware/errorHandlers");
 const userRegister = require("../Controllers/user-controler/userRegister");
 const userLogin = require("../Controllers/user-controler/userLogin");
 const upload = require("../Config/multer-connection");
-const uploadProfileImage = require("../Controllers/user-controler/ProfilePicUploader");
+const {uploadProfileImage} = require("../Controllers/user-controler/ProfilePicUploader");
 const profileGetter = require("../Controllers/user-controler/profileGetter");
 const isLoggedInMiddleware = require("../Middleware/isLoggedInMiddleware");
 const multerErrorHandler=require("../Middleware/multerErroHandler")
@@ -16,7 +16,12 @@ const getraisingFundProfile=require("../Controllers/raise-fund-controler/getrais
 const getblogs=require("../Controllers/blogs-controler/getblogs")
 router.post("/register",asyncErrorHandler(userRegister));
 router.post("/login", asyncErrorHandler(userLogin));
-router.post("/picUpload",isLoggedInMiddleware, upload.single("userPic"), asyncErrorHandler(uploadProfileImage));
+router.post(
+  "/picUpload",
+  isLoggedInMiddleware,
+  upload.single("userPic"),
+  asyncErrorHandler(uploadProfileImage)
+);
 router.get("/profile", isLoggedInMiddleware, asyncErrorHandler(profileGetter))
 router.post("/raisefunds",isLoggedInMiddleware,uploadMiddleware.fields([
   { name: "photos", maxCount: 4 }, // up to 4 photos

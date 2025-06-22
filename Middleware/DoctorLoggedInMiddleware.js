@@ -1,9 +1,8 @@
 const jwt = require("jsonwebtoken");
-const { userFinder } = require("../Utils/userFinder");
-const logerAuthenticate = async (req, res, next) => {
+const { doctorFinder } = require("../Utils/doctorFinder");
+const doctorLogerAuthenticate = async (req, res, next) => {
   try {
-    let token = req.cookies?.UserToken;
-
+    let token = req.cookies?.DoctorToken;
     if (!token && req.headers.authorization?.startsWith("Bearer ")) {
       token = req.headers.authorization.split(" ")[1];
     }
@@ -12,12 +11,12 @@ const logerAuthenticate = async (req, res, next) => {
       return res.status(401).json({ error: "Unauthorized: Token missing" });
     }
     const decoded = jwt.verify(token, process.env.JWT_KEY);
-    const user = await userFinder({
+    const doctor = await doctorFinder({
       key: "email",
       query: decoded.email,
       includePassword: true,
     });
-    req.user = user;
+    req.doctor = doctor;
     next();
   } catch (error) {
     console.log(error);
@@ -25,4 +24,4 @@ const logerAuthenticate = async (req, res, next) => {
   }
 };
 
-module.exports = logerAuthenticate;
+module.exports = doctorLogerAuthenticate;

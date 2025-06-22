@@ -19,7 +19,7 @@ const doctorRegister= async(req,res) => {
       address,
       clincname,
       isVerified,
-      gender
+      gender,
     } = req.body;
     const ExistingDoctor = await doctorFinder({key : "email", query: email});
     if(ExistingDoctor) return res.status(406).json("User is Already have account!");
@@ -34,15 +34,15 @@ const doctorRegister= async(req,res) => {
       languages,
       availableDays,
       availableTime,
-      hospitalAffiliation,
+      hospitalAffiliation:hospitalAffiliation.trim(),
       address,
       clincname,
       isVerified,
-      gender
+      gender,
     });
     const Otp = createOtp(6);
     await createNewOtpForUser({ userId: doctor._id ,email,otp: Otp});
-    res.status(201).json("Doctor Create successfully.");
+    res.status(201).json({doctor});
     await sendOtp({email, otp: Otp});
 }
 module.exports=doctorRegister
